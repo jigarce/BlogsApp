@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlogsApp", "MyBlogsApp\Blog
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{593CE6D1-3987-47D0-8E11-193C1E292C9E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyBlogsApp.Tests", "MyBlogsApp.Tests\MyBlogsApp.Tests.csproj", "{389A4387-C5E8-4B64-9678-F57C3A0716A9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlogsApp.Tests", "MyBlogsApp.Tests\BlogsApp.Tests.csproj", "{389A4387-C5E8-4B64-9678-F57C3A0716A9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
