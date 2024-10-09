@@ -6,7 +6,7 @@ The entire app is containerized in a Docker container along with all its depende
 
 The below high-level architecture diagram shows the various components of this app and how they are structured.
 
-![image](https://github.com/supreettare/MyBlogsApp/assets/284847/b4b9ae37-006e-4041-b3e2-25f0c26e22c6)
+![image](https://github.com/jigarce/BlogsApp/blob/master/BlogAPP.png)
 
 Here is a brief summary of each of the components and what they do: 
 
