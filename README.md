@@ -1,63 +1,75 @@
-MyBlogsApp is a simple .NET Core-based microservices app that showcases how to use various features such as creating a partially implemented service that allows for creating new posts with comments and fetching posts by ID, along with the post comments.
+# BlogsApp - .NET Core Microservices Application
 
-The app also uses JWT tokens for authentication, rate-limits each API call, and uses Redis for caching to improve performance.
+**BlogsApp** is a simple .NET Core-based microservices app that showcases how to use various features such as creating a partially implemented service that allows for creating new posts with comments and fetching posts by ID, along with the post comments.
 
-The entire app is containerized in a Docker container along with all its dependencies, including SQL Server and Redis.
+The app also uses JWT tokens for authentication, rate-limits each API call, and uses Redis for caching to improve performance. The entire app is containerized in Docker, along with all its dependencies, including SQL Server and Redis.
 
-The below high-level architecture diagram shows the various components of this app and how they are structured.
+The high-level architecture diagram below shows the various components of this app and how they are structured:
 
-![image](https://github.com/supreettare/MyBlogsApp/assets/284847/b4b9ae37-006e-4041-b3e2-25f0c26e22c6)
+![Architecture Diagram](https://github.com/jigarce/BlogsApp/blob/master/BlogAPP.png)
 
-Here is a brief summary of each of the components and what they do: 
+## Components Overview
 
-- Client Apps
-Browsers/Mobile Apps: Interface through which users interact with the application. They send requests to and receive responses from the Application Layer.
+Here is a brief summary of each of the components and their roles:
 
-- Application Layer - WebApp
-Posts Controller: Acts as an API endpoint; it processes incoming HTTP requests, invokes the appropriate actions in the Service Layer, and returns HTTP responses.
+### Client Apps
+- **Browsers/Mobile Apps**: Interface through which users interact with the application. They send requests to and receive responses from the Application Layer.
 
-- Services - CQRS Pattern:
-    - IPostCommandService: Handles all write operations (create, update, delete) for posts and comments, following the Command aspect of CQRS.
-    - IPostQueryService: Manages read operations (retrieve posts and comments), embodying the Query aspect of CQRS.
+### Application Layer - WebApp
+- **Posts Controller**: Acts as an API endpoint; it processes incoming HTTP requests, invokes the appropriate actions in the Service Layer, and returns HTTP responses.
 
-- Data Layer
-    - MS SQL Server: Stores, retrieves, and manages post and comment data as the primary persistent data store.
-    - Redis Server: Provides a fast, in-memory data store for caching, reducing the number of queries to the SQL database and improving read performance.
+### Services - CQRS Pattern
+- **IPostCommandService**: Handles all write operations (create, update, delete) for posts and comments, following the Command aspect of CQRS.
+- **IPostQueryService**: Manages read operations (retrieve posts and comments), embodying the Query aspect of CQRS.
 
-- Infrastructure Layer
-    - Docker: A platform used to containerize and isolate the Application and Data Layers, ensuring consistency and ease of deployment across different environments.
-    - Each component operates within its scope, collaboratively supporting the application's functionality while adhering to the separation of concerns dictated by the CQRS pattern.
+### Data Layer
+- **MS SQL Server**: Primary persistent data store for posts and comments.
+- **Redis Server**: Provides fast, in-memory caching, reducing the load on SQL Server and improving read performance.
 
+### Infrastructure Layer
+- **Docker**: Containerizes and isolates the Application and Data Layers, ensuring consistent and easy deployment across environments.
 
-**Running the app: **
-- You can run & test the app via Postman. To do this, follow the steps below. 
-1. Download the Postman package json from here https://github.com/supreettare/MyBlogsApp/blob/master/EmpowerIDDemoSupreet.postman_collection.json
-2. Import the postman collectoion package to your Postman app.
-3. You will notice 3 APIs, use them in the below order: 
-    a.) http://empiddemo.centralindia.azurecontainer.io:8080/api/auth/token => Run this to get an Auth Token 
-    b.) http://empiddemo.centralindia.azurecontainer.io:8080/api/posts/ => Use this api to create new Blog Posts with comments, following JSON pattern is used 
+Each component operates within its scope, collaboratively supporting the application's functionality while adhering to the separation of concerns dictated by the CQRS pattern.
 
-{
-  "title": "Azure DB Entry 1",
-  "content": "This should work",
-  "comments": [
-    {
-      "author": "Supreet",
-      "content": "Does this work?"
-    }
-  ]
-}
+---
 
-    c.) http://empiddemo.centralindia.azurecontainer.io:8080/api/posts/{id} => Use this API to fetch Posts with comments by passing the Id. 
+## Running the App
 
-**Additional Notes: **
+You can run and test the app using **Postman**. Follow these steps:
 
-- The first time the posts will be fetched from the DB & then will be cached. 
-- The default rate limit to APIs is 5 APIs per minute 
+1. Download the Postman collection JSON from [here](https://github.com/jigarce/BlogsApp/blob/master/Postman_collection.json).
+2. Import the collection into your Postman app.
+3. Use the following APIs in the specified order:
 
+    - **Step 1**: Get an Auth Token:
+      ```http
+      POST http://myblog.azurecontainer.io:8080/api/auth/token
+      ```
+    
+    - **Step 2**: Create a new blog post with comments (use the JSON structure below):
+      ```http
+      POST http://myblog.azurecontainer.io:8080/api/posts/
+      ```
 
- 
+      ```json
+      {
+        "title": "Azure DB Entry 1",
+        "content": "This should work",
+        "comments": [
+          {
+            "author": "Supreet",
+            "content": "Does this work?"
+          }
+        ]
+      }
+      ```
 
- 
+    - **Step 3**: Fetch a post by ID:
+      ```http
+      GET http://myblog.azurecontainer.io:8080/api/posts/{id}
+      ```
 
+## Additional Notes
 
+- Posts are fetched from the database on the first request and cached afterward.
+- The default rate limit for APIs is **5 requests per minute**.
